@@ -34,6 +34,18 @@ namespace FunWithMorseCode
 
                     for (int i = 0; i < inputString.Length; i++)
                     {
+                        if (!((int)char.ToLower(inputString[i]) >= 97 
+                            && (int)char.ToLower(inputString[i]) <= 122
+                            || (int)char.ToLower(inputString[i]) >= 45 
+                            && (int)char.ToLower(inputString[i]) <= 57)
+                            )
+                        {
+                            correctInput = false;
+                            Console.Write("The string cannot contain non-Latin letters. Try again to enter the string:\n");
+                            inputString = Console.ReadLine();
+                            continue;
+                        }
+
                         if (char.IsLetter(inputString[i])
                             || inputString[i] == ' '
                             || inputString[i] == '.'
@@ -48,7 +60,7 @@ namespace FunWithMorseCode
                         else
                         {
                             correctInput = false;
-                            Console.Write("This is not valid input. Please enter numbers or letters of the English alphabet:\n");
+                            Console.Write("This is not valid input. Please enter numbers or Latin letters:\n");
                             inputString = Console.ReadLine();
                             break;
                         }
@@ -146,14 +158,12 @@ namespace FunWithMorseCode
             var codeTable = MorseCodes.CodeTable;
             StringBuilder result = new StringBuilder();
             string[] arrayStrings = morseMessage.Split(' ');
-            int count = 0;
 
             for (int i = 0; i < arrayStrings.Length; i++)
             {
                 for (int j = 0; j < codeTable.Length; j++)
                 {
                     StringBuilder temp = new StringBuilder();
-                    count = 0;
 
                     for (int k = 1; k < codeTable[j].Length; k++)
                     {
@@ -163,13 +173,7 @@ namespace FunWithMorseCode
                     if (arrayStrings[i] == temp.ToString())
                     {
                         result.Append(codeTable[j][0]);
-                        count++;
                     }
-                }
-
-                if (count == 0)
-                {
-                    result.Append("_");
                 }
             }
 
